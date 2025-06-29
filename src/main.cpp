@@ -6,20 +6,20 @@
 #include "BuzzerController.h"
 #include "Melodies.h"
 #include <EEPROM.h>
+// include <Servo.h>
 
 #define EEPROM_MELODY_ADDR 0
 // Pin definitions for motor control (Arduino Nano)
 
-const uint8_t LEFT_MOTOR_PWM = 9;
-const uint8_t LEFT_MOTOR_DIR1 = 7;
-const uint8_t LEFT_MOTOR_DIR2 = 8;
+const uint8_t PROPELLER_PWM = 9;
+const uint8_t PROPELLER_DIR1 = 7;
+const uint8_t PROPELLER_DIR2 = 8;
 const uint8_t RIGHT_MOTOR_PWM = 10;
 const uint8_t RIGHT_MOTOR_DIR1 = 11;
 const uint8_t RIGHT_MOTOR_DIR2 = 12;
 // Create instances of our classes
 MotorController motorController(
-    LEFT_MOTOR_PWM, LEFT_MOTOR_DIR1, LEFT_MOTOR_DIR2,
-    RIGHT_MOTOR_PWM, RIGHT_MOTOR_DIR1, RIGHT_MOTOR_DIR2);
+    PROPELLER_PWM, PROPELLER_DIR1, PROPELLER_DIR2);
 
 // Create RCChannel instances
 RCChannel turnChannel(2);
@@ -79,23 +79,6 @@ void setup()
     Serial.println("RC channels initialized.");
     // Initialize components
     motorController.begin();
-    /*
-        uint8_t savedIndex = EEPROM.read(EEPROM_MELODY_ADDR);
-        if (savedIndex < melodyCount)
-        {
-            buzzerController.setCustomMelody(melodies[savedIndex]);
-            buzzerController.setMode(BuzzerMode::CUSTOM);
-        }
-        else
-        {
-            buzzerController.setCustomMelody(melodies[0]);
-            buzzerController.setMode(BuzzerMode::CUSTOM);
-        }
-        // simpleMelody.setLoop(true);
-        // buzzerController.setCustomMelody(&simpleMelody);
-        buzzerController.setMode(BuzzerMode::CUSTOM);
-    */
-    // buzzerController.update();
     Serial.println("System initialized and ready!");
 }
 
@@ -254,19 +237,19 @@ void loop()
     // Add your control logic here based on the pulse widths
     // For example, you can control motors based on these values
 
-    int turnSpeed = mapRCToSpeed(_turn);
     int moveSpeed = mapRCToSpeed(_move);
-
+    // Thêm deadband cho tín hiệu move (channel điều khiển tiến lùi)
+    if (_move >= 1460 && _move <= 1540)
+    {
+        moveSpeed = 0;
+    }
     float throttleScale = mapThrottleToScale(_throttle); // 0.0 → 1.0
-
-    turnSpeed = turnSpeed * throttleScale; // Scale turn speed by throttle
-    moveSpeed = moveSpeed * throttleScale; // Scale move speed by throttle
-    // Tính tốc độ từng bánh
-    int leftSpeed = constrain(turnSpeed - moveSpeed, -255, 255);
-    int rightSpeed = constrain(turnSpeed + moveSpeed, -255, 255);
-
-    // Set the motor speeds
-    motorController.setSpeed(leftSpeed, rightSpeed);
+    Serial.print("Throttle Scale: ");
+    Serial.println(throttleScale);
+    int propellerSpeed = moveSpeed * throttleScale;
+    Serial.print("Propeller Speed: ");
+    Serial.println(propellerSpeed);
+    motorController.setSpeed(propellerSpeed);
 
     // motorController.setSpeed(leftSpeed * throttleScale, rightSpeed * throttleScale);
     //  Add a small delay to avoid flooding the serial output
