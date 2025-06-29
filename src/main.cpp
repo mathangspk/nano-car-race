@@ -133,7 +133,7 @@ void loop()
 
     // check connnect tx
 
-    if (_throttle < 900)
+    if (_throttle < 900 || _throttle > 2500)
     {
         currentMode = BuzzerMode::ERROR;
         buzzerController.setMode(currentMode);
@@ -236,27 +236,16 @@ void loop()
 
     buzzerController.update();
 
-    /*
-    // check connnect tx
-    if (_throttle < 900 || _throttle > 2000)
-    {
-        currentMode = BuzzerMode::ERROR;
-        // Serial.println("Error: Throttle pulse width out of range!");
-        return; // Skip control logic if throttle is invalid
-    }
-    else
-    {
-        // currentMode = BuzzerMode::OFF;
-    }
-
-  */
-
-    // Add your control logic here based on the pulse widths
-    // For example, you can control motors based on these values
-
     int turnSpeed = mapRCToSpeed(_turn);
+    if (_turn >= 1460 && _turn <= 1540)
+    {
+        turnSpeed = 0;
+    }
     int moveSpeed = mapRCToSpeed(_move);
-
+    if (_move >= 1460 && _move <= 1540)
+    {
+        moveSpeed = 0;
+    }
     float throttleScale = mapThrottleToScale(_throttle); // 0.0 → 1.0
 
     turnSpeed = turnSpeed * throttleScale; // Scale turn speed by throttle
