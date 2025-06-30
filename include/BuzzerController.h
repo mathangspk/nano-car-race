@@ -32,7 +32,6 @@ private:
     BuzzerMode _mode, _lastMode;
     unsigned long _lastToneTime;
     bool _toneState;
-
-    const Melody *_customMelody;
     size_t _melodyIndex;
+    const Melody *_customMelody;
 };

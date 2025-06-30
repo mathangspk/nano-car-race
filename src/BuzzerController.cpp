@@ -95,7 +95,7 @@ void BuzzerController::playCustomMelody()
 
     if (_melodyIndex < length)
     {
-        if (millis() - _lastToneTime >= notes[_melodyIndex].duration)
+        if (millis() - _lastToneTime >= static_cast<unsigned long>(notes[_melodyIndex].duration))
         {
             _lastToneTime = millis();
             if (notes[_melodyIndex].frequency > 0)
