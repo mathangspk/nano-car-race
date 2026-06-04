@@ -1,5 +1,5 @@
 #pragma once
-#include <stddef.h> // <- Thêm dòng này để có size_t
+#include <stddef.h> // Added to support size_t
 
 struct Note
 {

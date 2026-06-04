@@ -19,7 +19,7 @@ public:
     void setMode(BuzzerMode mode);
     void update();
 
-    void setCustomMelody(const Melody *melody); // Nhận melody để phát
+    void setCustomMelody(const Melody *melody); // Receives melody to play
     BuzzerMode getMode() const { return _mode; }
 
 private:

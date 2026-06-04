@@ -13,36 +13,25 @@ public:
     uint8_t getPin() const { return pin; }
     void handlePinChange();
 
-    // Static members for interrupt handling
-    static RCChannel *externalInstances[3];
+    static RCChannel *externalInstances[2];
     static RCChannel *pcintInstances[8];
     static uint8_t pcintInstanceCount;
 
 private:
-    // External Interrupt methods
     void setupExternalInterrupt();
     static void handleInterrupt0();
     static void handleInterrupt1();
-    static void handleInterrupt2();
-    
-    // Pin Change Interrupt methods
     void setupPinChangeInterrupt();
-    
-    // Common interrupt handler
     void handleInterrupt();
     
-    // Helper methods
-    bool isExternalInterruptPin() const;
-    bool isPinChangeInterruptPin() const;
-    void registerPinChangeInstance();
+    bool isExternalInterruptPin() const { return pin == 2 || pin == 3; }
+    bool isPinChangeInterruptPin() const { return pin <= 7; }
 
     uint8_t pin;
     volatile uint32_t pulseStart = 0;
-    volatile uint16_t pulseWidth = 1500; // giá trị mặc định trung lập
+    volatile uint16_t pulseWidth = 1500;
     volatile bool signalValid = false;
+    volatile unsigned long lastPulseTime = 0;
 };
-
-// Global Pin Change Interrupt handler
-void handlePCINT2_vect();
 
 #endif

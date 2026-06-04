@@ -1,6 +1,6 @@
 #include "Melodies.h"
 
-// Định nghĩa melody
+// Melody definitions
 const Melody simpleMelody(melody1, sizeof(melody1) / sizeof(melody1[0]), true);
 const Melody nokiaTune(melody2, sizeof(melody2) / sizeof(melody2[0]), true);
 const Melody nokiaOldTune(melody3, sizeof(melody3) / sizeof(melody3[0]), true);
@@ -9,7 +9,7 @@ const Melody sunnyMelodyExtended(sunnyStartExtended, sizeof(sunnyStartExtended) 
 const Melody chauLenBaMelody(chauLenBa, sizeof(chauLenBa) / sizeof(chauLenBa[0]), true);
 const Melody happyBirthdayMelody(happyBirthday, sizeof(happyBirthday) / sizeof(happyBirthday[0]), true);
 
-// Danh sách
+// Melody list
 const Melody *melodies[] = {
     &simpleMelody,
     &nokiaTune,
