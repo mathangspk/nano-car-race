@@ -40,7 +40,7 @@ void MotorController::setSpeed(int left, int right) {
     leftSpeed = left;
     rightSpeed = right;
     setMotorSpeed(leftMotorPWM, leftMotorDir1, leftMotorDir2, left);
-    setMotorSpeed(rightMotorPWM, rightMotorDir1, rightMotorDir2, right);
+    setMotorSpeed(rightMotorPWM, rightMotorDir1, rightMotorDir2, -right);
 }
 
 void MotorController::stop() {
