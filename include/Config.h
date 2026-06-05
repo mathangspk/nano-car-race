@@ -36,6 +36,14 @@
 #define RC_PULSE_NEUTRAL_MAX    1540
 #define RC_PULSE_CENTER         1500
 
+// RC Channel Calibration Ranges (Actual Transmitter Endpoints)
+#define RC_MOVE_MIN             1220
+#define RC_MOVE_MAX             1730
+#define RC_TURN_MIN             1220
+#define RC_TURN_MAX             1730
+#define RC_THROTTLE_MIN         1060
+#define RC_THROTTLE_MAX         2060
+
 // RC Signal Validation
 #define SIGNAL_TIMEOUT_MS       1000
 #define RC_PULSE_VALID_MIN      900

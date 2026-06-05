@@ -45,8 +45,8 @@ void CarApplication::update() {
     float throttleScale = 1.0f;
 
     if (_allSignalsValid) {
-        turnSpeed = isNeutral(turnPulse) ? 0 : mapRCToSpeed(turnPulse);
-        moveSpeed = isNeutral(movePulse) ? 0 : mapRCToSpeed(movePulse);
+        turnSpeed = isNeutral(turnPulse) ? 0 : mapRCToSpeed(turnPulse, RC_TURN_MIN, RC_TURN_MAX);
+        moveSpeed = isNeutral(movePulse) ? 0 : mapRCToSpeed(movePulse, RC_MOVE_MIN, RC_MOVE_MAX);
         throttleScale = mapThrottleToScale(throttlePulse);
 
         turnSpeed = turnSpeed * throttleScale;
@@ -92,14 +92,14 @@ bool CarApplication::validateAllSignals() {
            _selectTuneChannel.isSignalValid();
 }
 
-int CarApplication::mapRCToSpeed(uint16_t pulse) {
-    pulse = constrain(pulse, 1000, 2000);
-    return map(pulse, 1000, 2000, MOTOR_SPEED_MIN, MOTOR_SPEED_MAX);
+int CarApplication::mapRCToSpeed(uint16_t pulse, uint16_t rcMin, uint16_t rcMax) {
+    pulse = constrain(pulse, rcMin, rcMax);
+    return map(pulse, rcMin, rcMax, MOTOR_SPEED_MIN, MOTOR_SPEED_MAX);
 }
 
 float CarApplication::mapThrottleToScale(uint16_t pulse) {
-    pulse = constrain(pulse, 1000, 2000);
-    return THROTTLE_SCALE_MIN + (pulse - 1000) * ((THROTTLE_SCALE_MAX - THROTTLE_SCALE_MIN) / 1000.0f);
+    pulse = constrain(pulse, RC_THROTTLE_MIN, RC_THROTTLE_MAX);
+    return THROTTLE_SCALE_MIN + (pulse - RC_THROTTLE_MIN) * ((THROTTLE_SCALE_MAX - THROTTLE_SCALE_MIN) / (float)(RC_THROTTLE_MAX - RC_THROTTLE_MIN));
 }
 
 bool CarApplication::isNeutral(uint16_t pulse) {

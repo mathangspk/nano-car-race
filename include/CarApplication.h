@@ -15,7 +15,7 @@ public:
 
 private:
     bool validateAllSignals();
-    int mapRCToSpeed(uint16_t pulse);
+    int mapRCToSpeed(uint16_t pulse, uint16_t rcMin, uint16_t rcMax);
     float mapThrottleToScale(uint16_t pulse);
     bool isNeutral(uint16_t pulse);
 
