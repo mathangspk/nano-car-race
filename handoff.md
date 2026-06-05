@@ -3,12 +3,12 @@
 This document records the changes made in this iteration, the current state of the system, verification results, and the recommended next steps.
 
 ## Summary of Changes
-- **Joystick Direction Inversion**: Removed the negation on `moveSpeed` in `CarApplication.cpp`. This adjusts the controls so that pushing the joystick UP results in reverse movement (`lùi`) and pushing the joystick DOWN results in forward movement (`tiến`) as requested by the user.
+- **Joystick Direction Fix**: Negated `moveSpeed` in `CarApplication.cpp` (`moveSpeed = -moveSpeed * throttleScale;`). This maps joystick UP to forward movement (`tiến`) and joystick DOWN to reverse movement (`lùi`) on the physical car, correcting the reverse behavior observed by the user.
 - **Upload Verification Safety**: Increased the startup delay in `main.cpp` from 3000ms to 6000ms to ensure AVRdude verification completes successfully without serial line interference from the running sketch.
 
 ## Current System State
 - **Compiling**: The project builds successfully with `pio run`.
-- **Joystick Logic**: Adjusted to match user's physical requirements (UP -> reverse, DOWN -> forward).
+- **Joystick Logic**: Configured such that pushing UP drives the car forward, and pushing DOWN drives the car backward.
 - **Working Features**:
   - RC signal validation and timeout safety fail-safe.
   - Motor speed calculation and differential steering.
