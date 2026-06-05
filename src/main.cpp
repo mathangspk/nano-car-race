@@ -5,6 +5,7 @@
 CarApplication app;
 
 void setup() {
+    delay(3000); // Allow upload verification to complete before any Serial prints
     Serial.begin(SERIAL_BAUD_RATE);
     Serial.println("\nNano RC Car Controller Starting...");
 

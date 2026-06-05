@@ -19,8 +19,8 @@
 #define BUZZER_PIN              A0
 
 // RC Channel Pins
-#define TURN_CHANNEL_PIN        2   // External Interrupt
-#define MOVE_CHANNEL_PIN        3   // External Interrupt
+#define TURN_CHANNEL_PIN        3   // External Interrupt
+#define MOVE_CHANNEL_PIN        2   // External Interrupt
 #define THROTTLE_CHANNEL_PIN    4   // Pin Change Interrupt
 #define ON_TUNE_CHANNEL_PIN     5   // Pin Change Interrupt
 #define SELECT_TUNE_CHANNEL_PIN 6   // Pin Change Interrupt

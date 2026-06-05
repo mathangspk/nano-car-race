@@ -18,6 +18,9 @@ This document records the changes made in this iteration, the current state of t
     ```
   - **Buzzer Initialization**: Fixed missing `buzzerController.begin()` call in `setup()` which kept the pin in `INPUT` mode.
   - **Pin Change Interrupt Glitch**: Added rising edge initialization to `lastPinState` in the PCINT ISR to prevent boot-up glitch readings.
+  - **RC Channel Swap Fix**: Swapped `TURN_CHANNEL_PIN` and `MOVE_CHANNEL_PIN` definitions in `Config.h` to fix crossed control axes.
+  - **Inverted Movement Fix**: Negated `moveSpeed` in `CarApplication.cpp` to correct reversed forward/backward control.
+  - **Upload Verification Safety**: Added a 3-second safety delay in `main.cpp` `setup()` to prevent user serial prints from interfering with AVRdude verification.
 
 ## Current System State
 - **Compiling**: The project builds successfully with `pio run`.
