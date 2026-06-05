@@ -38,20 +38,49 @@ void CarApplication::update() {
     _melodyManager.update(onTunePulse, selectTunePulse, _allSignalsValid);
     _buzzerController.update();
 
+    int turnSpeed = 0;
+    int moveSpeed = 0;
+    int leftSpeed = 0;
+    int rightSpeed = 0;
+    float throttleScale = 1.0f;
+
     if (_allSignalsValid) {
-        int turnSpeed = isNeutral(turnPulse) ? 0 : mapRCToSpeed(turnPulse);
-        int moveSpeed = isNeutral(movePulse) ? 0 : mapRCToSpeed(movePulse);
-        float throttleScale = mapThrottleToScale(throttlePulse);
+        turnSpeed = isNeutral(turnPulse) ? 0 : mapRCToSpeed(turnPulse);
+        moveSpeed = isNeutral(movePulse) ? 0 : mapRCToSpeed(movePulse);
+        throttleScale = mapThrottleToScale(throttlePulse);
 
         turnSpeed = turnSpeed * throttleScale;
         moveSpeed = -moveSpeed * throttleScale;
 
-        int leftSpeed = constrain(moveSpeed + turnSpeed, MOTOR_SPEED_MIN, MOTOR_SPEED_MAX);
-        int rightSpeed = constrain(moveSpeed - turnSpeed, MOTOR_SPEED_MIN, MOTOR_SPEED_MAX);
+        leftSpeed = constrain(moveSpeed + turnSpeed, MOTOR_SPEED_MIN, MOTOR_SPEED_MAX);
+        rightSpeed = constrain(moveSpeed - turnSpeed, MOTOR_SPEED_MIN, MOTOR_SPEED_MAX);
 
         _motorController.setSpeed(leftSpeed, rightSpeed);
     } else {
         _motorController.stop();
+    }
+
+    // Log values every 500ms for calibration
+    static uint32_t lastLogTime = 0;
+    uint32_t currentTime = millis();
+    if (currentTime - lastLogTime >= 500) {
+        lastLogTime = currentTime;
+        Serial.print("Signals: ");
+        Serial.print(_allSignalsValid ? "VALID" : "INVALID");
+        Serial.print(" | RC Pulses - Turn: ");
+        Serial.print(turnPulse);
+        Serial.print(", Move: ");
+        Serial.print(movePulse);
+        Serial.print(", Throttle: ");
+        Serial.print(throttlePulse);
+        Serial.print(" | Speeds - Turn: ");
+        Serial.print(turnSpeed);
+        Serial.print(", Move: ");
+        Serial.print(moveSpeed);
+        Serial.print(" | Outputs L/R: ");
+        Serial.print(leftSpeed);
+        Serial.print("/");
+        Serial.println(rightSpeed);
     }
 }
 
