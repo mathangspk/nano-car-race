@@ -50,7 +50,7 @@ void CarApplication::update() {
         throttleScale = mapThrottleToScale(throttlePulse);
 
         turnSpeed = turnSpeed * throttleScale;
-        moveSpeed = -moveSpeed * throttleScale;
+        moveSpeed = moveSpeed * throttleScale;
 
         leftSpeed = constrain(moveSpeed + turnSpeed, MOTOR_SPEED_MIN, MOTOR_SPEED_MAX);
         rightSpeed = constrain(moveSpeed - turnSpeed, MOTOR_SPEED_MIN, MOTOR_SPEED_MAX);
